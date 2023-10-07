@@ -42,8 +42,7 @@
 <body>
     <!-- Your HTML content here -->
     <h1>
-        ფოტოები
-        <small>(დაჭირე ძმურად სადმე)</small>
+        <small>დაჭირე ძმურად სადმე</small>
     </h1>
     <main id="duck"></main>
 
@@ -101,12 +100,10 @@
             lastUsedImageIndex = (lastUsedImageIndex + 1) % providedImageURLs.length;
             return providedImageURLs[lastUsedImageIndex];
         }
-
-        // Code to limit the number of ducks
         document.addEventListener('click', e => {
-            if (document.getElementById('duck').children.length >= 50) {
+            if (document.getElementById('duck').children.length >= 60) {
                 let stopMsg = document.createElement('h2');
-                stopMsg.innerText = "ზედმეტად ბევრი ფოტოა !"
+                stopMsg.innerText = "ზედმეტად ბევრი ფოტოა!"
                 stopMsg.style.top = e.clientY + "px";
                 stopMsg.style.left = e.clientX + "px";
                 document.getElementById('duck').append(stopMsg);
@@ -114,9 +111,9 @@
                 // Choose a random image from user-uploaded, provided, and default images
                 let allImages = [...userImages];
 
-                if (allImages.length < 50) {
+                if (allImages.length < 60) {
                     // Add images from the shuffled providedImageURLs
-                    while (allImages.length < 50) {
+                    while (allImages.length < 60) {
                         allImages.push(getNextImage());
                     }
                 }
