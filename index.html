@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ფოტოები</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: sans-serif;
+            color: #2d2d2d;
+            background: url('https://i.postimg.cc/1zFZB1dh/so-white.png') repeat;
+        }
+
+        h1, small {
+            text-align: center;
+        }
+
+        main {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+
+        main img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            position: absolute;
+        }
+
+        main h2 {
+            color: red;
+            position: absolute;
+            z-index: 200;
+        }
+    </style>
+</head>
+<body>
+    <!-- Your HTML content here -->
+    <h1>
+        ფოტოები
+        <small>(დაჭირე ძმურად სადმე)</small>
+    </h1>
+    <main id="duck"></main>
+
+    <script>
+        let userImages = [];
+
+        // Your provided image URLs
+        let providedImageURLs = [
+            "https://i.postimg.cc/FH9n1rs7/received-1030355473677771.jpg",
+            "https://i.postimg.cc/44V857YY/received-1057271054637146.jpg",
+            "https://i.postimg.cc/DwBpX985/received-1192154447571593.jpg",
+            "https://i.postimg.cc/yYnyQFs8/received-1230560827101801.jpg",
+            "https://i.postimg.cc/85rZxswn/received-1428350880628133.jpg",
+            "https://i.postimg.cc/brcmP8BY/received-1621753057945061.jpg",
+            "https://i.postimg.cc/zfQddTwg/received-1621756724611361.jpg",
+            "https://i.postimg.cc/NfQxkNhn/received-1683723441729668.jpg",
+            "https://i.postimg.cc/7h3mYcF3/received-198181435219025.jpg",
+            "https://i.postimg.cc/DZVrJ6dB/received-2027141524030530.jpg",
+            "https://i.postimg.cc/qMGjPPX0/received-2308707689402768.jpg",
+            "https://i.postimg.cc/KjDDyTTQ/received-2724054407820415.jpg",
+            "https://i.postimg.cc/L5p37DJn/received-278696904365988.jpg",
+            "https://i.postimg.cc/NMTxpSf3/received-279090817686621.jpg",
+            "https://i.postimg.cc/xjvRmwZH/received-292084566442923.jpg",
+            "https://i.postimg.cc/nr2BWJ8P/received-363362247784439.jpg",
+            "https://i.postimg.cc/Z5RF1C5F/received-365445455739784.jpg",
+            "https://i.postimg.cc/DzS6b8Vy/received-365597185056392.jpg",
+            "https://i.postimg.cc/bNYQtskc/received-372007586959833.jpg",
+            "https://i.postimg.cc/4xNBsWBc/received-436490877390175.webp",
+            "https://i.postimg.cc/2yrnT5tW/received-442886466250015.jpg",
+            "https://i.postimg.cc/tCbBmq62/received-471693526901331.jpg",
+            "https://i.postimg.cc/N0FJ7dXt/received-571806246648396.jpg",
+            "https://i.postimg.cc/BvRg54s5/received-620239759267445.jpg",
+            "https://i.postimg.cc/6Q4VpgR8/received-620792358359429.jpg",
+            "https://i.postimg.cc/26444W0m/received-682160085514226.jpg",
+            "https://i.postimg.cc/0yWZQ7BB/received-700045744737601.jpg",
+            "https://i.postimg.cc/VsWqvjSW/received-816193102061277.jpg",
+            "https://i.postimg.cc/QdykshBL/received-903036330043202.jpg"
+        ];
+
+        // Shuffle the array of provided image URLs
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        shuffleArray(providedImageURLs);
+
+        // Keep track of the index of the last used image
+        let lastUsedImageIndex = -1;
+
+        // Function to get the next image URL without repetition
+        function getNextImage() {
+            lastUsedImageIndex = (lastUsedImageIndex + 1) % providedImageURLs.length;
+            return providedImageURLs[lastUsedImageIndex];
+        }
+
+        // Code to limit the number of ducks
+        document.addEventListener('click', e => {
+            if (document.getElementById('duck').children.length >= 50) {
+                let stopMsg = document.createElement('h2');
+                stopMsg.innerText = "ზედმეტად ბევრი ფოტოა !"
+                stopMsg.style.top = e.clientY + "px";
+                stopMsg.style.left = e.clientX + "px";
+                document.getElementById('duck').append(stopMsg);
+            } else {
+                // Choose a random image from user-uploaded, provided, and default images
+                let allImages = [...userImages];
+
+                if (allImages.length < 50) {
+                    // Add images from the shuffled providedImageURLs
+                    while (allImages.length < 50) {
+                        allImages.push(getNextImage());
+                    }
+                }
+
+                // Generate a random image URL
+                const randomImageIndex = Math.floor(Math.random() * allImages.length);
+                const randomImageURL = allImages.splice(randomImageIndex, 1)[0];
+
+                let img = document.createElement('img');
+                img.setAttribute('src', randomImageURL);
+                img.style.top = (e.clientY - 100) + "px";
+                img.style.left = (e.clientX - 100) + "px";
+                document.getElementById('duck').append(img);
+            }
+        });
+    </script>
+</body>
+</html>
