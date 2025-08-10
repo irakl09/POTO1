@@ -57,6 +57,7 @@
 <body>
   <div class="container">
     <h2>ფქვილის პროცენტული კალკულატორი</h2>
+    
     <label>ფქვილი (კგ):</label>
     <input type="number" id="flour" step="0.001" placeholder="მაგ: 23.950">
     
@@ -66,6 +67,14 @@
     <label>ქატო+ (კგ):</label>
     <input type="number" id="branPlus" step="0.001" placeholder="მაგ: 3.950">
     
+    <hr>
+    <h3>წისქვილის სიჩქარე</h3>
+    <label>რამდენი კილო დაფქვა:</label>
+    <input type="number" id="amountGround" step="0.001" placeholder="მაგ: 30">
+    
+    <label>რამდენ წუთში დაფქვა:</label>
+    <input type="number" id="minutesTaken" step="0.01" placeholder="მაგ: 2">
+    
     <button onclick="calculate()">გამოთვლა</button>
     
     <div class="result" id="result" style="display:none;"></div>
@@ -73,13 +82,14 @@
 
   <script>
     function calculate() {
+      // ფქვილის და ქატოს პროცენტები
       let flour = parseFloat(document.getElementById('flour').value) || 0;
       let bran = parseFloat(document.getElementById('bran').value) || 0;
       let branPlus = parseFloat(document.getElementById('branPlus').value) || 0;
       
       let total = flour + bran + branPlus;
       if (total === 0) {
-        alert("გთხოვთ შეიყვანოთ მონაცემები");
+        alert("გთხოვთ შეიყვანოთ ფქვილის, ქატოს და ქატო+ მონაცემები");
         return;
       }
       
@@ -87,13 +97,28 @@
       let branPct = (bran / total * 100).toFixed(2);
       let branPlusPct = (branPlus / total * 100).toFixed(2);
       
-      document.getElementById('result').style.display = 'block';
-      document.getElementById('result').innerHTML = `
+      // სიჩქარის გამოთვლა
+      let amount = parseFloat(document.getElementById('amountGround').value) || 0;
+      let minutes = parseFloat(document.getElementById('minutesTaken').value) || 0;
+      let perHour = 0;
+      if (amount > 0 && minutes > 0) {
+        perHour = (amount / minutes) * 60;
+      }
+      
+      // შედეგის ჩვენება
+      let output = `
         <b>სულ:</b> ${total.toFixed(3)} კგ<br>
         <b>ფქვილი:</b> ${flour.toFixed(3)} კგ (${flourPct}%)<br>
         <b>ქატო:</b> ${bran.toFixed(3)} კგ (${branPct}%)<br>
-        <b>ქატო+:</b> ${branPlus.toFixed(3)} კგ (${branPlusPct}%)
+        <b>ქატო+:</b> ${branPlus.toFixed(3)} კგ (${branPlusPct}%)<br>
       `;
+      
+      if (perHour > 0) {
+        output += `<hr><b>სიჩქარე:</b> ${perHour.toFixed(3)} კგ/საათში`;
+      }
+      
+      document.getElementById('result').style.display = 'block';
+      document.getElementById('result').innerHTML = output;
     }
   </script>
 </body>
