@@ -59,21 +59,21 @@
     <h2>ფქვილის პროცენტული კალკულატორი</h2>
     
     <label>ფქვილი (კგ):</label>
-    <input type="number" id="flour" step="0.001" placeholder="მაგ: 23.950">
+    <input type="number" id="flour" step="0.001" placeholder="მაგ: 23.950" oninput="autoFillTotal()">
     
     <label>ქატო (კგ):</label>
-    <input type="number" id="bran" step="0.001" placeholder="მაგ: 2.200">
+    <input type="number" id="bran" step="0.001" placeholder="მაგ: 2.200" oninput="autoFillTotal()">
     
     <label>ქატო+ (კგ):</label>
-    <input type="number" id="branPlus" step="0.001" placeholder="მაგ: 3.950">
+    <input type="number" id="branPlus" step="0.001" placeholder="მაგ: 3.950" oninput="autoFillTotal()">
     
     <hr>
     <h3>წისქვილის სიჩქარე</h3>
-    <label>რამდენი კილო დაფქვა:</label>
-    <input type="number" id="amountGround" step="0.001" placeholder="მაგ: 30">
+    <label>დაფქვის წონა (კგ):</label>
+    <input type="number" id="amountGround" step="0.001" placeholder="ავტომატურად ჩაისმება ან ჩაწერე" oninput="calculateSpeed()">
     
     <label>რამდენ წუთში დაფქვა:</label>
-    <input type="number" id="minutesTaken" step="0.01" placeholder="მაგ: 2">
+    <input type="number" id="minutesTaken" step="0.01" placeholder="მაგ: 2" oninput="calculateSpeed()">
     
     <button onclick="calculate()">გამოთვლა</button>
     
@@ -81,8 +81,26 @@
   </div>
 
   <script>
+    function autoFillTotal() {
+      let flour = parseFloat(document.getElementById('flour').value) || 0;
+      let bran = parseFloat(document.getElementById('bran').value) || 0;
+      let branPlus = parseFloat(document.getElementById('branPlus').value) || 0;
+      let total = flour + bran + branPlus;
+      document.getElementById('amountGround').value = total ? total.toFixed(3) : '';
+      calculateSpeed();
+    }
+
+    function calculateSpeed() {
+      let amount = parseFloat(document.getElementById('amountGround').value) || 0;
+      let minutes = parseFloat(document.getElementById('minutesTaken').value) || 0;
+      if (amount > 0 && minutes > 0) {
+        let perHour = (amount / minutes) * 60;
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('result').innerHTML = `<b>სიჩქარე:</b> ${perHour.toFixed(3)} კგ/საათში`;
+      }
+    }
+
     function calculate() {
-      // ფქვილის და ქატოს პროცენტები
       let flour = parseFloat(document.getElementById('flour').value) || 0;
       let bran = parseFloat(document.getElementById('bran').value) || 0;
       let branPlus = parseFloat(document.getElementById('branPlus').value) || 0;
@@ -96,16 +114,10 @@
       let flourPct = (flour / total * 100).toFixed(2);
       let branPct = (bran / total * 100).toFixed(2);
       let branPlusPct = (branPlus / total * 100).toFixed(2);
-      
-      // სიჩქარის გამოთვლა
-      let amount = parseFloat(document.getElementById('amountGround').value) || 0;
+
       let minutes = parseFloat(document.getElementById('minutesTaken').value) || 0;
-      let perHour = 0;
-      if (amount > 0 && minutes > 0) {
-        perHour = (amount / minutes) * 60;
-      }
+      let perHour = (minutes > 0) ? ((total / minutes) * 60).toFixed(3) : 0;
       
-      // შედეგის ჩვენება
       let output = `
         <b>სულ:</b> ${total.toFixed(3)} კგ<br>
         <b>ფქვილი:</b> ${flour.toFixed(3)} კგ (${flourPct}%)<br>
@@ -114,7 +126,7 @@
       `;
       
       if (perHour > 0) {
-        output += `<hr><b>სიჩქარე:</b> ${perHour.toFixed(3)} კგ/საათში`;
+        output += `<hr><b>სიჩქარე:</b> ${perHour} კგ/საათში`;
       }
       
       document.getElementById('result').style.display = 'block';
