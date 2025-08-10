@@ -4,150 +4,38 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ფქვილის პროცენტული კალკულატორი</title>
+  
+  <!-- PWA Meta ტეგები -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#4CAF50" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="ფქვილის კალკულატორი" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png" />
+  <link rel="apple-touch-icon" sizes="167x167" href="icons/icon-167.png" />
+  <link rel="apple-touch-startup-image" href="icons/splash.png" /> <!-- Splash screen iOS-ისთვის, შექმენით 2732x2732 PNG -->
+
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .container {
-      max-width: 600px;
-      width: 100%;
-      background: #ffffff;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .container:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-    }
-
-    h2 {
-      text-align: center;
-      color: #1a3c34;
-      margin-bottom: 20px;
-      font-size: 1.8rem;
-      font-weight: 600;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      font-size: 1rem;
-      color: #333;
-      margin-bottom: 8px;
-      font-weight: 500;
-    }
-
-    input {
-      width: 100%;
-      padding: 12px;
-      font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    input:focus {
-      outline: none;
-      border-color: #4CAF50;
-      box-shadow: 0 0 8px rgba(76, 175, 80, 0.2);
-    }
-
-    input::placeholder {
-      color: #999;
-      font-style: italic;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      background: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s ease;
-    }
-
-    button:hover {
-      background: #45a049;
-      transform: translateY(-2px);
-    }
-
-    button:active {
-      transform: translateY(0);
-    }
-
-    hr {
-      border: none;
-      border-top: 1px solid #e0e0e0;
-      margin: 20px 0;
-    }
-
-    h3 {
-      font-size: 1.3rem;
-      color: #1a3c34;
-      margin-bottom: 15px;
-    }
-
-    .result {
-      margin-top: 20px;
-      padding: 15px;
-      background: #f4faff;
-      border-radius: 10px;
-      border: 1px solid #e0e0e0;
-      font-size: 1rem;
-      line-height: 1.6;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-
-    .result.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .error {
-      color: #d32f2f;
-      font-size: 0.9rem;
-      margin-top: 10px;
-      text-align: center;
-    }
-
-    @media (max-width: 500px) {
-      .container {
-        padding: 20px;
-      }
-
-      h2 {
-        font-size: 1.5rem;
-      }
-
-      button {
-        font-size: 1rem;
-      }
-    }
+    /* წინა CSS უცვლელად, მოკლედ რომ არ გავწელო */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg, #e3f2fd, #bbdefb); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+    .container { max-width: 600px; width: 100%; background: #ffffff; padding: 30px; border-radius: 15px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .container:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); }
+    h2 { text-align: center; color: #1a3c34; margin-bottom: 20px; font-size: 1.8rem; font-weight: 600; }
+    .form-group { margin-bottom: 20px; }
+    label { display: block; font-size: 1rem; color: #333; margin-bottom: 8px; font-weight: 500; }
+    input { width: 100%; padding: 12px; font-size: 1rem; border: 1px solid #ccc; border-radius: 8px; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+    input:focus { outline: none; border-color: #4CAF50; box-shadow: 0 0 8px rgba(76, 175, 80, 0.2); }
+    input::placeholder { color: #999; font-style: italic; }
+    button { width: 100%; padding: 12px; background: #4CAF50; color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 500; cursor: pointer; transition: background 0.3s ease, transform 0.2s ease; }
+    button:hover { background: #45a049; transform: translateY(-2px); }
+    button:active { transform: translateY(0); }
+    hr { border: none; border-top: 1px solid #e0e0e0; margin: 20px 0; }
+    h3 { font-size: 1.3rem; color: #1a3c34; margin-bottom: 15px; }
+    .result { margin-top: 20px; padding: 15px; background: #f4faff; border-radius: 10px; border: 1px solid #e0e0e0; font-size: 1rem; line-height: 1.6; opacity: 0; transform: translateY(10px); transition: opacity 0.3s ease, transform 0.3s ease; }
+    .result.show { opacity: 1; transform: translateY(0); }
+    .error { color: #d32f2f; font-size: 0.9rem; margin-top: 10px; text-align: center; }
+    @media (max-width: 500px) { .container { padding: 20px; } h2 { font-size: 1.5rem; } button { font-size: 1rem; } }
   </style>
 </head>
 <body>
@@ -158,37 +46,32 @@
         <label for="flour">ფქვილი (კგ):</label>
         <input type="number" id="flour" step="0.001" placeholder="მაგ: 23.950" required />
       </div>
-
       <div class="form-group">
         <label for="bran">ქატო (კგ):</label>
         <input type="number" id="bran" step="0.001" placeholder="მაგ: 2.200" required />
       </div>
-
       <div class="form-group">
         <label for="branPlus">ქატო+ (კგ):</label>
         <input type="number" id="branPlus" step="0.001" placeholder="მაგ: 3.950" required />
       </div>
-
       <hr>
       <h3>წისქვილის სიჩქარე</h3>
       <div class="form-group">
         <label for="amountGround">დაფქვის წონა (კგ):</label>
         <input type="number" id="amountGround" step="0.001" placeholder="ავტომატურად გამოითვლება" readonly />
       </div>
-
       <div class="form-group">
         <label for="minutesTaken">რამდენ წუთში დაფქვა:</label>
         <input type="number" id="minutesTaken" step="0.01" placeholder="მაგ: 2" />
       </div>
-
       <button type="submit">გამოთვლა</button>
     </form>
-
     <div class="result" id="result"></div>
     <div class="error" id="error"></div>
   </div>
 
   <script>
+    // წინა JS უცვლელად
     const form = document.getElementById('calcForm');
     const inputs = {
       flour: document.getElementById('flour'),
@@ -264,6 +147,15 @@
     });
     inputs.minutesTaken.addEventListener('input', calculateSpeed);
     form.addEventListener('submit', calculate);
+
+    // Service Worker რეგისტრაცია PWA-სთვის
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(reg => console.log('Service Worker registered', reg))
+          .catch(err => console.log('Service Worker registration failed', err));
+      });
+    }
   </script>
 </body>
 </html>
