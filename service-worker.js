@@ -2,7 +2,10 @@ const CACHE_NAME = 'flour-calc-v1';
 const urlsToCache = [
   '/',
   '/index.html',
-  // დაამატეთ სხვა ფაილები თუ გაქვთ (მაგ. CSS თუ გამოყოფილია)
+  'icons/m-192.png', // დამატებული იკონები ქეშში
+  'icons/m-512.png',
+  'icons/splash.png'
+  // დაამატეთ სხვა თუ გაქვთ
 ];
 
 self.addEventListener('install', event => {
