@@ -4,7 +4,7 @@ const urlsToCache = [
   '/index.html',
   'm-192.png', // "m" ფოტო
   'm-512.png',
-  'splash.png' // Splash ფოტო "m"-ით
+  'm.png' // m ფოტო "m"-ით
 ];
 
 self.addEventListener('install', event => {
