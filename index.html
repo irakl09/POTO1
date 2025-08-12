@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ფქვილის პროცენტული კალკულატორი</title>
   <link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/jpeg" sizes="192x192" href="m.jpg">
+  <link rel="icon" type="image/jpeg" sizes="192x192" href="m.jpg">
   <!-- Icons -->
   <link rel="icon" type="image/jpeg" sizes="192x192" href="/m.jpg">
   <link rel="apple-touch-icon" sizes="180x180" href="/m.jpg">
@@ -28,21 +28,119 @@
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg, #e3f2fd, #bbdefb); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; position: relative; }
-    .container { max-width: 600px; width: 100%; background: #ffffff; padding: 30px; border-radius: 15px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-    .container:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); }
-    h2 { text-align: center; color: #1a3c34; margin-bottom: 20px; font-size: 1.8rem; font-weight: 600; }
-    .form-group { margin-bottom: 20px; }
-    label { display: block; font-size: 1rem; color: #333; margin-bottom: 8px; font-weight: 500; }
-    input { width: 100%; padding: 12px; font-size: 1rem; border: 1px solid #ccc; border-radius: 8px; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
-    input:focus { outline: none; border-color: #4CAF50; box-shadow: 0 0 8px rgba(76, 175, 80, 0.2); }
-    button { width: 100%; padding: 12px; background: #4CAF50; color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 500; cursor: pointer; transition: background 0.3s ease, transform 0.2s ease; }
-    button:hover { background: #45a049; transform: translateY(-2px); }
-    hr { border: none; border-top: 1px solid #e0e0e0; margin: 20px 0; }
-    h3 { font-size: 1.3rem; color: #1a3c34; margin-bottom: 15px; }
-    .result { margin-top: 20px; padding: 15px; background: #f4faff; border-radius: 10px; border: 1px solid #e0e0e0; font-size: 1rem; line-height: 1.6; opacity: 0; transform: translateY(10px); transition: opacity 0.3s ease, transform 0.3s ease; }
-    .result.show { opacity: 1; transform: translateY(0); }
-    .error { color: #d32f2f; font-size: 0.9rem; margin-top: 10px; text-align: center; }
+    body { 
+      font-family: 'Segoe UI', Arial, sans-serif; 
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb); 
+      min-height: 100vh; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      padding: 20px; 
+      position: relative; 
+    }
+    .container { 
+      max-width: 600px; 
+      width: 100%; 
+      background: #ffffff; 
+      padding: 30px; 
+      border-radius: 15px; 
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); 
+      transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    }
+    .container:hover { 
+      transform: translateY(-5px); 
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); 
+    }
+    h2 { 
+      text-align: center; 
+      color: #1a3c34; 
+      margin-bottom: 20px; 
+      font-size: 1.8rem; 
+      font-weight: 600; 
+    }
+    .form-group { 
+      margin-bottom: 20px; 
+    }
+    label { 
+      display: block; 
+      font-size: 1rem; 
+      color: #333; 
+      margin-bottom: 8px; 
+      font-weight: 500; 
+    }
+    input { 
+      width: 100%; 
+      padding: 12px; 
+      font-size: 1rem; 
+      border: 1px solid #ccc; 
+      border-radius: 8px; 
+      transition: border-color 0.3s ease, box-shadow 0.3s ease; 
+    }
+    input:focus { 
+      outline: none; 
+      border-color: #4CAF50; 
+      box-shadow: 0 0 8px rgba(76, 175, 80, 0.2); 
+    }
+    button { 
+      width: 100%; 
+      padding: 12px; 
+      background: #4CAF50; 
+      color: white; 
+      border: none; 
+      border-radius: 8px; 
+      font-size: 1.1rem; 
+      font-weight: 500; 
+      cursor: pointer; 
+      transition: background 0.3s ease, transform 0.2s ease; 
+    }
+    button:hover { 
+      background: #45a049; 
+      transform: translateY(-2px); 
+    }
+    hr { 
+      border: none; 
+      border-top: 1px solid #e0e0e0; 
+      margin: 20px 0; 
+    }
+    h3 { 
+      font-size: 1.3rem; 
+      color: #1a3c34; 
+      margin-bottom: 15px; 
+    }
+    .result { 
+      margin-top: 20px; 
+      padding: 20px; 
+      background: linear-gradient(135deg, #f4faff, #e8f0fe); 
+      border-radius: 12px; 
+      border: 2px solid #4CAF50; 
+      font-size: 1.2rem; 
+      line-height: 1.8; 
+      opacity: 0; 
+      transform: translateY(10px); 
+      transition: opacity 0.4s ease, transform 0.4s ease; 
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+    }
+    .result.show { 
+      opacity: 1; 
+      transform: translateY(0); 
+    }
+    .result b { 
+      color: #1a3c34; 
+      font-weight: 700; 
+    }
+    .result .highlight { 
+      font-size: 1.4rem; 
+      font-weight: 800; 
+      color: #4CAF50; 
+      display: inline-block; 
+      margin-left: 10px; 
+    }
+    .error { 
+      color: #d32f2f; 
+      font-size: 0.9rem; 
+      margin-top: 10px; 
+      text-align: center; 
+    }
 
     /* Splash */
     #splash {
@@ -112,7 +210,7 @@
     window.addEventListener('load', () => {
       setTimeout(() => {
         splash.classList.add('hidden');
-      }, 1200); // Splash დრო 1.2 წამი
+      }, 1200); // Splash duration 1.2 seconds
     });
 
     function autoFillTotal() {
@@ -130,7 +228,7 @@
       if (amount > 0 && minutes > 0) {
         const perHour = (amount / minutes) * 60;
         resultDiv.classList.add('show');
-        resultDiv.innerHTML = `<b>სიჩქარე:</b> ${perHour.toFixed(3)} კგ/საათში`;
+        resultDiv.innerHTML = `<b>სიჩქარე:</b> <span class="highlight">${perHour.toFixed(3)} კგ/საათში</span>`;
       } else {
         resultDiv.classList.remove('show');
         resultDiv.innerHTML = '';
@@ -159,14 +257,14 @@
       const perHour = minutes > 0 ? ((total / minutes) * 60).toFixed(3) : 0;
 
       let output = `
-        <b>სულ:</b> ${total.toFixed(3)} კგ<br>
-        <b>ფქვილი:</b> ${flour.toFixed(3)} კგ (${flourPct}%)<br>
-        <b>ქატო:</b> ${bran.toFixed(3)} კგ (${branPct}%)<br>
-        <b>ქატო+:</b> ${branPlus.toFixed(3)} კგ (${branPlusPct}%)<br>
+        <b>სულ:</b> <span class="highlight">${total.toFixed(3)} კგ</span><br>
+        <b>ფქვილი:</b> <span class="highlight">${flour.toFixed(3)} კგ (${flourPct}%)</span><br>
+        <b>ქატო:</b> <span class="highlight">${bran.toFixed(3)} კგ (${branPct}%)</span><br>
+        <b>ქატო+:</b> <span class="highlight">${branPlus.toFixed(3)} კგ (${branPlusPct}%)</span><br>
       `;
 
       if (perHour > 0) {
-        output += `<hr><b>სიჩქარე:</b> ${perHour} კგ/საათში`;
+        output += `<hr><b>სიჩქარე:</b> <span class="highlight">${perHour} კგ/საათში</span>`;
       }
 
       resultDiv.classList.add('show');
@@ -189,4 +287,3 @@
   </script>
 </body>
 </html>
-
