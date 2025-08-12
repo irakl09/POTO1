@@ -46,6 +46,11 @@
       font-size: 1.8rem; 
     }
 
+    h3 { 
+      color: #1a3c34; 
+      margin-bottom: 10px; 
+    }
+
     .form-group { margin-bottom: 20px; }
     label { display: block; margin-bottom: 8px; color: #333; }
     input { 
@@ -79,10 +84,17 @@
     }
 
     #exportPdf {
-      background: #2196F3; /* Blue for PDF button to differentiate */
+      background: #2196F3; /* Blue for PDF button */
     }
     #exportPdf:hover {
       background: #1976D2;
+    }
+
+    #showHistory {
+      background: #757575; /* Gray for history button */
+    }
+    #showHistory:hover {
+      background: #616161;
     }
 
     hr { border: none; border-top: 1px solid #e0e0e0; margin: 20px 0; }
@@ -102,7 +114,7 @@
       padding: 12px 15px;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      font-size: 1.2rem; /* Increased font size */
+      font-size: 1.4rem; /* Further increased from 1.2rem */
       line-height: 1.5;
     }
 
@@ -115,6 +127,22 @@
       text-align: center; 
     }
 
+    #history {
+      margin-top: 20px;
+    }
+    #historyList {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .history-item {
+      background: #f5f5f5;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 1rem;
+      border-left: 5px solid #4CAF50;
+    }
+
     /* Dark mode */
     @media (prefers-color-scheme: dark) {
       body { background: linear-gradient(135deg, #263238, #37474f); }
@@ -125,7 +153,12 @@
         background: #555; 
         border-left-color: #81C784; 
         color: #fff; 
-        font-size: 1.2rem; 
+        font-size: 1.4rem; 
+      }
+      .history-item {
+        background: #555;
+        border-left-color: #81C784;
+        color: #fff;
       }
     }
 
@@ -138,7 +171,7 @@
         font-size: 1.5rem;
       }
       .result-item {
-        font-size: 1rem; /* Slightly smaller for small screens */
+        font-size: 1.1rem; /* Adjusted for small screens */
       }
       input, button {
         font-size: 0.9rem;
@@ -191,10 +224,15 @@
       </div>
       <button type="submit">გამოთვლა</button>
       <button type="button" id="exportPdf">PDF-ად შენახვა</button>
+      <button type="button" id="showHistory">ისტორიის ჩვენება</button>
     </form>
 
     <div class="results-container" id="result"></div>
     <div class="error" id="error" role="alert"></div>
+    <div id="history" style="display: none;">
+      <h3>წინა შედეგები</h3>
+      <div id="historyList"></div>
+    </div>
   </div>
 
   <script>
@@ -210,6 +248,9 @@
     const errorDiv = document.getElementById('error');
     const splash = document.getElementById('splash');
     const exportPdfBtn = document.getElementById('exportPdf');
+    const showHistoryBtn = document.getElementById('showHistory');
+    const historyDiv = document.getElementById('history');
+    const historyList = document.getElementById('historyList');
 
     window.addEventListener('load', () => {
       inputs.flour.focus();
@@ -269,6 +310,32 @@
       });
     }
 
+    function saveResult(results) {
+      let history = JSON.parse(localStorage.getItem('calc_history')) || [];
+      history.unshift({ date: new Date().toLocaleString('ka-GE'), results });
+      if (history.length > 10) history.pop(); // Limit to 10 results
+      localStorage.setItem('calc_history', JSON.stringify(history));
+    }
+
+    function showHistory() {
+      const history = JSON.parse(localStorage.getItem('calc_history')) || [];
+      historyList.innerHTML = '';
+      if (history.length === 0) {
+        historyList.innerHTML = '<p>ისტორია ცარიელია.</p>';
+      } else {
+        history.forEach((item, index) => {
+          const div = document.createElement('div');
+          div.className = 'history-item';
+          div.innerHTML = `<b>${item.date}</b><br>`;
+          item.results.forEach(res => {
+            div.innerHTML += `${res.label}: ${res.value}<br>`;
+          });
+          historyList.appendChild(div);
+        });
+      }
+      historyDiv.style.display = historyDiv.style.display === 'none' ? 'block' : 'none';
+    }
+
     function calculate(e) {
       e.preventDefault();
       errorDiv.textContent = '';
@@ -292,7 +359,7 @@
       const results = [
         { label: "სულ", value: `${total.toFixed(3)} კგ` },
         { label: "ფქვილი", value: `${flour.toFixed(3)} კგ (${flourPct}%)` },
-        { label: "ქატო", value: `${bran.toFixed(3)} კგ (${branPct}%)` },
+        { label: "ქატო", value: `${bran.toFixed(3)} কগ (${branPct}%)` },
         { label: "ქატო+", value: `${branPlus.toFixed(3)} კგ (${branPlusPct}%)` }
       ];
 
@@ -301,6 +368,7 @@
       }
 
       renderResults(results);
+      saveResult(results);
     }
 
     exportPdfBtn.addEventListener('click', () => {
@@ -324,6 +392,8 @@
 
       doc.save('flour_calculator_results.pdf');
     });
+
+    showHistoryBtn.addEventListener('click', showHistory);
 
     [inputs.flour, inputs.bran, inputs.branPlus].forEach(input => {
       input.addEventListener('input', autoFillTotal);
