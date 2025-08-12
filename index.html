@@ -1,259 +1,143 @@
 <!DOCTYPE html>
 <html lang="ka">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ფქვილის პროცენტული კალკულატორი</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" type="image/jpeg" sizes="192x192" href="m.jpg">
-  <link rel="apple-touch-icon" href="/m.jpg" />
-
-  <meta name="theme-color" content="#4CAF50" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="ფქვილის კალკულატორი" />
-
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { 
-      font-family: 'Segoe UI', Arial, sans-serif; 
-      background: linear-gradient(135deg, #e3f2fd, #bbdefb); 
-      min-height: 100vh; 
-      display: flex; 
-      justify-content: center; 
-      align-items: center; 
-      padding: 20px; 
-    }
-
-    .container { 
-      max-width: 600px; 
-      width: 100%; 
-      background: #fff; 
-      padding: 30px; 
-      border-radius: 15px; 
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); 
-      transition: transform 0.3s ease, box-shadow 0.3s ease; 
-    }
-    .container:hover { 
-      transform: translateY(-5px); 
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); 
-    }
-
-    h2 { 
-      text-align: center; 
-      color: #1a3c34; 
-      margin-bottom: 20px; 
-      font-size: 1.8rem; 
-    }
-
-    .form-group { margin-bottom: 20px; }
-    label { display: block; margin-bottom: 8px; color: #333; }
-    input { 
-      width: 100%; 
-      padding: 12px; 
-      border: 1px solid #ccc; 
-      border-radius: 8px; 
-      font-size: 1rem; 
-    }
-    input:focus { 
-      outline: none; 
-      border-color: #4CAF50; 
-      box-shadow: 0 0 8px rgba(76, 175, 80, 0.2); 
-    }
-
-    button { 
-      width: 100%; 
-      padding: 12px; 
-      background: #8b4513; 
-      color: white; 
-      border: none; 
-      border-radius: 8px; 
-      font-size: 1.1rem; 
-      cursor: pointer; 
-      transition: background 0.3s ease, transform 0.2s ease; 
-    }
-    button:hover { 
-      background: #6b3510; 
-      transform: translateY(-2px); 
-    }
-
-    hr { border: none; border-top: 1px solid #e0e0e0; margin: 20px 0; }
-
-    .results-container {
-      margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .result-item {
-      display: flex;
-      justify-content: space-between;
-      background: #fafafa;
-      border-left: 5px solid #8b4513;
-      padding: 12px 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      font-size: 1rem;
-    }
-
-    .result-item b { color: #1a3c34; }
-
-    .error { color: #d32f2f; font-size: 0.9rem; margin-top: 10px; text-align: center; }
-
-    /* Dark mode */
-    @media (prefers-color-scheme: dark) {
-      body { background: linear-gradient(135deg, #263238, #37474f); }
-      .container { background: #424242; color: #f5f5f5; }
-      label { color: #eee; }
-      input { background: #555; border-color: #777; color: #fff; }
-      .result-item { background: #616161; border-left-color: #ffb74d; color: #fff; }
-    }
-
-    /* Splash */
-    #splash {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: #ffffff url('m.jpg') no-repeat center center;
-      background-size: contain;
-      display: flex; justify-content: center; align-items: center;
-      z-index: 9999;
-      opacity: 1;
-      transition: opacity 0.6s ease-out;
-    }
-    #splash.hidden { opacity: 0; pointer-events: none; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>გამოთვლების აპლიკაცია</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 32px;
+        }
+        .form-group {
+            margin: 15px 0;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        button {
+            background-color: #1a73e8;
+            color: white;
+            padding: 14px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        button:hover {
+            background-color: #0c5fc0;
+            transform: translateY(-2px);
+        }
+        .results {
+            margin-top: 25px;
+        }
+        .result-item {
+            background: #f9f9f9;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-left: 6px solid #1a73e8; /* ლურჯი ზოლი */
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px; /* დიდი ასოები */
+            font-weight: bold;
+            color: #222;
+        }
+        .save-btn {
+            background-color: #28a745;
+            margin-top: 15px;
+        }
+        .save-btn:hover {
+            background-color: #1f7a32;
+        }
+    </style>
 </head>
 <body>
-  <div id="splash"></div>
 
-  <div class="container">
-    <h2>ფქვილის პროცენტული კალკულატორი</h2>
-    <form id="calcForm">
-      <div class="form-group">
-        <label for="flour">ფქვილი (კგ):</label>
-        <input type="number" id="flour" step="0.001" placeholder="მაგ: 23.950" required />
-      </div>
-      <div class="form-group">
-        <label for="bran">ქატო (კგ):</label>
-        <input type="number" id="bran" step="0.001" placeholder="მაგ: 2.200" required />
-      </div>
-      <div class="form-group">
-        <label for="branPlus">ქატო+ (კგ):</label>
-        <input type="number" id="branPlus" step="0.001" placeholder="მაგ: 3.950" required />
-      </div>
-      <hr>
-      <h3>წისქვილის სიჩქარე</h3>
-      <div class="form-group">
-        <label for="amountGround">დაფქვის წონა (კგ):</label>
-        <input type="number" id="amountGround" step="0.001" readonly />
-      </div>
-      <div class="form-group">
-        <label for="minutesTaken">რამდენ წუთში დაფქვა:</label>
-        <input type="number" id="minutesTaken" step="0.01" placeholder="მაგ: 2" />
-      </div>
-      <button type="submit">გამოთვლა</button>
-    </form>
+<div class="container">
+    <h1>გამოთვლების აპლიკაცია</h1>
+    <div class="form-group">
+        <label>რაოდენობა</label>
+        <input type="number" id="amount" placeholder="შეიყვანეთ რაოდენობა">
+    </div>
+    <div class="form-group">
+        <label>ფასი</label>
+        <input type="number" id="price" placeholder="შეიყვანეთ ფასი">
+    </div>
+    <button onclick="calculate()">გამოთვლა</button>
 
-    <div class="results-container" id="result"></div>
-    <div class="error" id="error"></div>
-  </div>
+    <div class="results" id="results"></div>
+    <button class="save-btn" onclick="savePDF()">შენახვა PDF-ში</button>
+</div>
 
-  <script>
-    const form = document.getElementById('calcForm');
-    const inputs = {
-      flour: document.getElementById('flour'),
-      bran: document.getElementById('bran'),
-      branPlus: document.getElementById('branPlus'),
-      amountGround: document.getElementById('amountGround'),
-      minutesTaken: document.getElementById('minutesTaken'),
-    };
-    const resultDiv = document.getElementById('result');
-    const errorDiv = document.getElementById('error');
-    const splash = document.getElementById('splash');
+<!-- PDF გენერაციის ბიბლიოთეკა -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-    window.addEventListener('load', () => {
-      inputs.flour.focus();
-      setTimeout(() => splash.classList.add('hidden'), 1200);
-    });
+<script>
+    let resultsData = [];
 
-    function autoFillTotal() {
-      const flour = parseFloat(inputs.flour.value) || 0;
-      const bran = parseFloat(inputs.bran.value) || 0;
-      const branPlus = parseFloat(inputs.branPlus.value) || 0;
-      const total = flour + bran + branPlus;
-      inputs.amountGround.value = total ? total.toFixed(3) : '';
-      calculateSpeed();
+    function calculate() {
+        const amount = parseFloat(document.getElementById('amount').value);
+        const price = parseFloat(document.getElementById('price').value);
+        if (isNaN(amount) || isNaN(price)) {
+            alert('გთხოვთ შეავსოთ ორივე ველი!');
+            return;
+        }
+
+        const total = amount * price;
+        resultsData.push(`რაოდენობა: ${amount} × ფასი: ${price} = ჯამი: ${total} ₾`);
+        displayResults();
     }
 
-    function calculateSpeed() {
-      const amount = parseFloat(inputs.amountGround.value) || 0;
-      const minutes = parseFloat(inputs.minutesTaken.value) || 0;
-      if (amount > 0 && minutes > 0) {
-        const perHour = (amount / minutes) * 60;
-        renderResults([{ label: "სიჩქარე", value: `${perHour.toFixed(3)} კგ/საათში` }]);
-      }
+    function displayResults() {
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.innerHTML = '';
+        resultsData.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'result-item';
+            div.textContent = item;
+            resultsDiv.appendChild(div);
+        });
     }
 
-    function renderResults(items) {
-      resultDiv.innerHTML = "";
-      items.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'result-item';
-        div.innerHTML = `<b>${item.label}:</b> <span>${item.value}</span>`;
-        resultDiv.appendChild(div);
-      });
+    function savePDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.setFontSize(16);
+        doc.text("გამოთვლების შედეგები", 10, 10);
+
+        resultsData.forEach((item, index) => {
+            doc.text(item, 10, 20 + (index * 10));
+        });
+
+        doc.save("shedegebi.pdf");
     }
+</script>
 
-    function calculate(e) {
-      e.preventDefault();
-      errorDiv.textContent = '';
-
-      const flour = parseFloat(inputs.flour.value) || 0;
-      const bran = parseFloat(inputs.bran.value) || 0;
-      const branPlus = parseFloat(inputs.branPlus.value) || 0;
-      const total = flour + bran + branPlus;
-
-      if (total === 0) {
-        errorDiv.textContent = 'გთხოვთ, შეიყვანოთ მონაცემები.';
-        resultDiv.innerHTML = '';
-        return;
-      }
-
-      const flourPct = (flour / total * 100).toFixed(2);
-      const branPct = (bran / total * 100).toFixed(2);
-      const branPlusPct = (branPlus / total * 100).toFixed(2);
-      const minutes = parseFloat(inputs.minutesTaken.value) || 0;
-      const perHour = minutes > 0 ? ((total / minutes) * 60).toFixed(3) : 0;
-
-      const results = [
-        { label: "სულ", value: `${total.toFixed(3)} კგ` },
-        { label: "ფქვილი", value: `${flour.toFixed(3)} კგ (${flourPct}%)` },
-        { label: "ქატო", value: `${bran.toFixed(3)} კგ (${branPct}%)` },
-        { label: "ქატო+", value: `${branPlus.toFixed(3)} კგ (${branPlusPct}%)` }
-      ];
-
-      if (perHour > 0) {
-        results.push({ label: "სიჩქარე", value: `${perHour} კგ/საათში` });
-      }
-
-      renderResults(results);
-    }
-
-    [inputs.flour, inputs.bran, inputs.branPlus].forEach(input => {
-      input.addEventListener('input', autoFillTotal);
-    });
-    inputs.minutesTaken.addEventListener('input', calculateSpeed);
-    form.addEventListener('submit', calculate);
-
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-          .then(reg => console.log('Service Worker registered', reg))
-          .catch(err => console.log('Service Worker registration failed', err));
-      });
-    }
-  </script>
 </body>
 </html>
