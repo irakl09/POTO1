@@ -6,23 +6,9 @@
   <title>ფქვილის პროცენტული კალკულატორი</title>
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/jpeg" sizes="192x192" href="m.jpg">
-
-  <!-- Icons -->
-  <link rel="icon" type="image/jpeg" sizes="192x192" href="/m.jpg">
-  <link rel="apple-touch-icon" sizes="180x180" href="/m.jpg">
-  <link rel="apple-touch-icon" sizes="167x167" href="/m.jpg">
-  <link rel="apple-touch-icon" sizes="152x152" href="/m.jpg">
-  <link rel="icon" href="/m.jpg" type="image/jpeg" />
   <link rel="apple-touch-icon" href="/m.jpg" />
 
-  <!-- Preload Splash Image -->
-  <link rel="preload" href="/m.jpg" as="image">
-
-  <!-- Manifest -->
-  <link rel="manifest" href="manifest.json" />
-  
-  <!-- PWA Meta -->
-  <meta name="theme-color" content="#8B4513" /> <!-- ყავისფერი ხორბლის თემა -->
+  <meta name="theme-color" content="#4CAF50" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="ფქვილის კალკულატორი" />
@@ -31,140 +17,97 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { 
       font-family: 'Segoe UI', Arial, sans-serif; 
-      background: linear-gradient(135deg, #f5e8c7, #d2b48c); /* ხორბლის ფერები */
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb); 
       min-height: 100vh; 
       display: flex; 
       justify-content: center; 
       align-items: center; 
       padding: 20px; 
-      position: relative; 
     }
+
     .container { 
       max-width: 600px; 
       width: 100%; 
-      background: #fff8e7; /* მსუბუქი ხორბლის ფონი */
+      background: #fff; 
       padding: 30px; 
       border-radius: 15px; 
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); 
       transition: transform 0.3s ease, box-shadow 0.3s ease; 
-      border: 2px solid #8B4513; /* ყავისფერი ჩარჩო */
-      position: relative; 
     }
     .container:hover { 
       transform: translateY(-5px); 
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); 
     }
-    .wheat-icon { 
-      position: absolute; 
-      top: -40px; 
-      left: 50%; 
-      transform: translateX(-50%); 
-      width: 80px; 
-      height: 80px; 
-      background: url('https://img.icons8.com/ios-filled/50/8B4513/wheat.png') no-repeat center; /* ხორბლის აიქონი */
-      background-size: contain; 
-    }
+
     h2 { 
       text-align: center; 
-      color: #8B4513; /* ყავისფერი ჰედერი */
+      color: #1a3c34; 
       margin-bottom: 20px; 
       font-size: 1.8rem; 
-      font-weight: 600; 
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); 
     }
-    .form-group { 
-      margin-bottom: 20px; 
-    }
-    label { 
-      display: block; 
-      font-size: 1rem; 
-      color: #5c4033; /* მუქი ყავისფერი */
-      margin-bottom: 8px; 
-      font-weight: 500; 
-    }
+
+    .form-group { margin-bottom: 20px; }
+    label { display: block; margin-bottom: 8px; color: #333; }
     input { 
       width: 100%; 
       padding: 12px; 
-      font-size: 1rem; 
-      border: 1px solid #d2b48c; /* ხორბლის ფერის ჩარჩო */
+      border: 1px solid #ccc; 
       border-radius: 8px; 
-      background: #fffaf0; /* მსუბუქი ფონი */
-      transition: border-color 0.3s ease, box-shadow 0.3s ease; 
+      font-size: 1rem; 
     }
     input:focus { 
       outline: none; 
-      border-color: #8B4513; 
-      box-shadow: 0 0 8px rgba(139, 69, 19, 0.2); 
+      border-color: #4CAF50; 
+      box-shadow: 0 0 8px rgba(76, 175, 80, 0.2); 
     }
+
     button { 
       width: 100%; 
       padding: 12px; 
-      background: #8B4513; /* ყავისფერი ღილაკი */
+      background: #8b4513; 
       color: white; 
       border: none; 
       border-radius: 8px; 
       font-size: 1.1rem; 
-      font-weight: 500; 
       cursor: pointer; 
       transition: background 0.3s ease, transform 0.2s ease; 
     }
     button:hover { 
-      background: #6b3510; /* მუქი ყავისფერი */
+      background: #6b3510; 
       transform: translateY(-2px); 
     }
-    hr { 
-      border: none; 
-      border-top: 1px dashed #d2b48c; /* გაყოფა ხორბლის სტილში */
-      margin: 20px 0; 
+
+    hr { border: none; border-top: 1px solid #e0e0e0; margin: 20px 0; }
+
+    .results-container {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
-    h3 { 
-      font-size: 1.3rem; 
-      color: #8B4513; 
-      margin-bottom: 15px; 
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); 
+
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      background: #fafafa;
+      border-left: 5px solid #8b4513;
+      padding: 12px 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      font-size: 1rem;
     }
-    .result { 
-      margin-top: 20px; 
-      padding: 20px; 
-      background: #fffaf0; /* მსუბუქი ხორბლის ფონი */
-      border-radius: 12px; 
-      border: 2px solid #8B4513; 
-      font-size: 1.2rem; 
-      line-height: 1.8; 
-      opacity: 0; 
-      transform: translateY(10px); 
-      transition: opacity 0.4s ease, transform 0.4s ease; 
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
-      display: flex; 
-      flex-direction: column; 
-      gap: 10px; 
-    }
-    .result.show { 
-      opacity: 1; 
-      transform: translateY(0); 
-    }
-    .result-item { 
-      display: flex; 
-      justify-content: space-between; 
-      padding: 10px; 
-      background: #fefefe; 
-      border-radius: 8px; 
-      border-left: 4px solid #8B4513; 
-    }
-    .result-item b { 
-      color: #5c4033; 
-      font-weight: 700; 
-    }
-    .result-item .highlight { 
-      font-size: 1.4rem; 
-      font-weight: 800; 
-      color: #8B4513; 
-    }
-    .error { 
-      color: #8B0000; /* მუქი წითელი */
-      font-size: 0.9rem; 
-      margin-top: 10px; 
-      text-align: center; 
+
+    .result-item b { color: #1a3c34; }
+
+    .error { color: #d32f2f; font-size: 0.9rem; margin-top: 10px; text-align: center; }
+
+    /* Dark mode */
+    @media (prefers-color-scheme: dark) {
+      body { background: linear-gradient(135deg, #263238, #37474f); }
+      .container { background: #424242; color: #f5f5f5; }
+      label { color: #eee; }
+      input { background: #555; border-color: #777; color: #fff; }
+      .result-item { background: #616161; border-left-color: #ffb74d; color: #fff; }
     }
 
     /* Splash */
@@ -172,33 +115,20 @@
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: #fffaf0 url('https://img.icons8.com/ios-filled/50/8B4513/wheat.png') no-repeat center center;
-      background-size: 100px;
+      background: #ffffff url('m.jpg') no-repeat center center;
+      background-size: contain;
       display: flex; justify-content: center; align-items: center;
       z-index: 9999;
       opacity: 1;
       transition: opacity 0.6s ease-out;
     }
-    #splash.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 480px) {
-      .container { padding: 15px; }
-      .result { font-size: 1rem; }
-      .result .highlight { font-size: 1.2rem; }
-      h2 { font-size: 1.5rem; }
-      h3 { font-size: 1.1rem; }
-    }
+    #splash.hidden { opacity: 0; pointer-events: none; }
   </style>
 </head>
 <body>
   <div id="splash"></div>
 
   <div class="container">
-    <div class="wheat-icon"></div>
     <h2>ფქვილის პროცენტული კალკულატორი</h2>
     <form id="calcForm">
       <div class="form-group">
@@ -217,7 +147,7 @@
       <h3>წისქვილის სიჩქარე</h3>
       <div class="form-group">
         <label for="amountGround">დაფქვის წონა (კგ):</label>
-        <input type="number" id="amountGround" step="0.001" placeholder="ავტომატურად გამოითვლება" readonly />
+        <input type="number" id="amountGround" step="0.001" readonly />
       </div>
       <div class="form-group">
         <label for="minutesTaken">რამდენ წუთში დაფქვა:</label>
@@ -225,7 +155,8 @@
       </div>
       <button type="submit">გამოთვლა</button>
     </form>
-    <div class="result" id="result"></div>
+
+    <div class="results-container" id="result"></div>
     <div class="error" id="error"></div>
   </div>
 
@@ -243,9 +174,8 @@
     const splash = document.getElementById('splash');
 
     window.addEventListener('load', () => {
-      setTimeout(() => {
-        splash.classList.add('hidden');
-      }, 1200);
+      inputs.flour.focus();
+      setTimeout(() => splash.classList.add('hidden'), 1200);
     });
 
     function autoFillTotal() {
@@ -262,12 +192,18 @@
       const minutes = parseFloat(inputs.minutesTaken.value) || 0;
       if (amount > 0 && minutes > 0) {
         const perHour = (amount / minutes) * 60;
-        resultDiv.classList.add('show');
-        resultDiv.innerHTML = `<div class="result-item"><b>სიჩქარე:</b><span class="highlight">${perHour.toFixed(3)} კგ/საათში</span></div>`;
-      } else {
-        resultDiv.classList.remove('show');
-        resultDiv.innerHTML = '';
+        renderResults([{ label: "სიჩქარე", value: `${perHour.toFixed(3)} კგ/საათში` }]);
       }
+    }
+
+    function renderResults(items) {
+      resultDiv.innerHTML = "";
+      items.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'result-item';
+        div.innerHTML = `<b>${item.label}:</b> <span>${item.value}</span>`;
+        resultDiv.appendChild(div);
+      });
     }
 
     function calculate(e) {
@@ -281,7 +217,7 @@
 
       if (total === 0) {
         errorDiv.textContent = 'გთხოვთ, შეიყვანოთ მონაცემები.';
-        resultDiv.classList.remove('show');
+        resultDiv.innerHTML = '';
         return;
       }
 
@@ -291,19 +227,18 @@
       const minutes = parseFloat(inputs.minutesTaken.value) || 0;
       const perHour = minutes > 0 ? ((total / minutes) * 60).toFixed(3) : 0;
 
-      let output = `
-        <div class="result-item"><b>სულ:</b><span class="highlight">${total.toFixed(3)} კგ</span></div>
-        <div class="result-item"><b>ფქვილი:</b><span class="highlight">${flour.toFixed(3)} კგ (${flourPct}%)</span></div>
-        <div class="result-item"><b>ქატო:</b><span class="highlight">${bran.toFixed(3)} კგ (${branPct}%)</span></div>
-        <div class="result-item"><b>ქატო+:</b><span class="highlight">${branPlus.toFixed(3)} კგ (${branPlusPct}%)</span></div>
-      `;
+      const results = [
+        { label: "სულ", value: `${total.toFixed(3)} კგ` },
+        { label: "ფქვილი", value: `${flour.toFixed(3)} კგ (${flourPct}%)` },
+        { label: "ქატო", value: `${bran.toFixed(3)} კგ (${branPct}%)` },
+        { label: "ქატო+", value: `${branPlus.toFixed(3)} კგ (${branPlusPct}%)` }
+      ];
 
       if (perHour > 0) {
-        output += `<div class="result-item"><b>სიჩქარე:</b><span class="highlight">${perHour} კგ/საათში</span></div>`;
+        results.push({ label: "სიჩქარე", value: `${perHour} კგ/საათში` });
       }
 
-      resultDiv.classList.add('show');
-      resultDiv.innerHTML = output;
+      renderResults(results);
     }
 
     [inputs.flour, inputs.bran, inputs.branPlus].forEach(input => {
