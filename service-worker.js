@@ -3,7 +3,9 @@ const urlsToCache = [
   '/',
   '/index.html',
   '/m.jpg',
-  'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'
+  '/m-512.jpg', // ახალი ხატულა
+  '/manifest.json', // manifest ფაილი
+  '/js/jspdf.umd.min.js' // თუ jsPDF ლოკალურად გაქვთ
 ];
 
 self.addEventListener('install', event => {
