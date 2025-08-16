@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ფქვილის პროცენტული კალკულატორი</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" type="image/jpeg" sizes="192x192" href="m.jpg">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/jpeg" sizes="192x192" href="/m.jpg">
   <link rel="apple-touch-icon" href="/m.jpg" />
   <meta name="theme-color" content="#4CAF50" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="ფქვილის კალკულატორი" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="/js/jspdf.umd.min.js"></script>
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -24,7 +24,6 @@
       align-items: center; 
       padding: 20px; 
     }
-
     .container { 
       max-width: 600px; 
       width: 100%; 
@@ -38,19 +37,16 @@
       transform: translateY(-5px); 
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); 
     }
-
     h2 { 
       text-align: center; 
       color: #1a3c34; 
       margin-bottom: 20px; 
       font-size: 1.8rem; 
     }
-
     h3 { 
       color: #1a3c34; 
-      margin-bottom: 10px; 
+      margin-bottom: 10px;ഗ
     }
-
     .form-group { margin-bottom: 20px; }
     label { display: block; margin-bottom: 8px; color: #333; }
     input { 
@@ -65,7 +61,6 @@
       border-color: #4CAF50; 
       box-shadow: 0 0 8px rgba(76, 175, 80, 0.2); 
     }
-
     button { 
       width: 100%; 
       padding: 12px; 
@@ -82,30 +77,17 @@
       background: #388E3C; 
       transform: translateY(-2px); 
     }
-
-    #exportPdf {
-      background: #2196F3; /* Blue for PDF button */
-    }
-    #exportPdf:hover {
-      background: #1976D2;
-    }
-
-    #showHistory {
-      background: #757575; /* Gray for history button */
-    }
-    #showHistory:hover {
-      background: #616161;
-    }
-
+    #exportPdf { background: #2196F3; }
+    #exportPdf:hover { background: #1976D2; }
+    #showHistory { background: #757575; }
+    #showHistory:hover { background: #616161; }
     hr { border: none; border-top: 1px solid #e0e0e0; margin: 20px 0; }
-
     .results-container {
       margin-top: 20px;
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
-
     .result-item {
       display: flex;
       justify-content: space-between;
@@ -114,22 +96,17 @@
       padding: 12px 15px;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      font-size: 1.4rem; /* Further increased from 1.2rem */
+      font-size: 1.4rem;
       line-height: 1.5;
     }
-
     .result-item b { color: #1a3c34; }
-
     .error { 
       color: #d32f2f; 
       font-size: 0.9rem; 
       margin-top: 10px; 
       text-align: center; 
     }
-
-    #history {
-      margin-top: 20px;
-    }
+    #history { margin-top: 20px; }
     #historyList {
       display: flex;
       flex-direction: column;
@@ -142,8 +119,6 @@
       font-size: 1rem;
       border-left: 5px solid #4CAF50;
     }
-
-    /* Dark mode */
     @media (prefers-color-scheme: dark) {
       body { background: linear-gradient(135deg, #263238, #37474f); }
       .container { background: #424242; color: #f5f5f5; }
@@ -161,30 +136,17 @@
         color: #fff;
       }
     }
-
-    /* Responsive for small screens */
     @media (max-width: 400px) {
-      .container {
-        padding: 15px;
-      }
-      h2 {
-        font-size: 1.5rem;
-      }
-      .result-item {
-        font-size: 1.1rem; /* Adjusted for small screens */
-      }
-      input, button {
-        font-size: 0.9rem;
-        padding: 10px;
-      }
+      .container { padding: 15px; }
+      h2 { font-size: 1.5rem; }
+      .result-item { font-size: 1.1rem; }
+      input, button { font-size: 0.9rem; padding: 10px; }
     }
-
-    /* Splash */
     #splash {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: #ffffff url('m.jpg') no-repeat center center;
+      background: #ffffff url('/m.jpg') no-repeat center center;
       background-size: contain;
       display: flex; justify-content: center; align-items: center;
       z-index: 9999;
@@ -196,7 +158,6 @@
 </head>
 <body>
   <div id="splash"></div>
-
   <div class="container">
     <h2>ფქვილის პროცენტული კალკულატორი</h2>
     <form id="calcForm">
@@ -226,7 +187,6 @@
       <button type="button" id="exportPdf">PDF-ად შენახვა</button>
       <button type="button" id="showHistory">ისტორიის ჩვენება</button>
     </form>
-
     <div class="results-container" id="result"></div>
     <div class="error" id="error" role="alert"></div>
     <div id="history" style="display: none;">
@@ -265,7 +225,6 @@
       const bran = parseFloat(inputs.bran.value) || 0;
       const branPlus = parseFloat(inputs.branPlus.value) || 0;
       const minutes = parseFloat(inputs.minutesTaken.value) || 0;
-
       if (flour < 0 || bran < 0 || branPlus < 0 || minutes < 0) {
         errorDiv.textContent = 'უარყოფითი მნიშვნელობები დაუშვებელია.';
         return false;
@@ -301,7 +260,7 @@
     }
 
     function renderResults(items) {
-      resultDiv.innerHTML = "";
+      resultDiv.innerHTML = '';
       items.forEach(item => {
         const div = document.createElement('div');
         div.className = 'result-item';
@@ -311,90 +270,102 @@
     }
 
     function saveResult(results) {
-      let history = JSON.parse(localStorage.getItem('calc_history')) || [];
-      history.unshift({ date: new Date().toLocaleString('ka-GE'), results });
-      if (history.length > 10) history.pop(); // Limit to 10 results
-      localStorage.setItem('calc_history', JSON.stringify(history));
+      try {
+        let history = JSON.parse(localStorage.getItem('calc_history')) || [];
+        history.unshift({ date: new Date().toLocaleString('ka-GE'), results });
+        if (history.length > 10) history.pop();
+        localStorage.setItem('calc_history', JSON.stringify(history));
+      } catch (err) {
+        errorDiv.textContent = 'შეცდომა ისტორიის შენახვისას: ' + err.message;
+      }
     }
 
     function showHistory() {
-      const history = JSON.parse(localStorage.getItem('calc_history')) || [];
-      historyList.innerHTML = '';
-      if (history.length === 0) {
-        historyList.innerHTML = '<p>ისტორია ცარიელია.</p>';
-      } else {
-        history.forEach((item, index) => {
-          const div = document.createElement('div');
-          div.className = 'history-item';
-          div.innerHTML = `<b>${item.date}</b><br>`;
-          item.results.forEach(res => {
-            div.innerHTML += `${res.label}: ${res.value}<br>`;
+      try {
+        const history = JSON.parse(localStorage.getItem('calc_history')) || [];
+        historyList.innerHTML = '';
+        if (history.length === 0) {
+          historyList.innerHTML = '<p>ისტორია ცარიელია.</p>';
+        } else {
+          history.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'history-item';
+            div.innerHTML = `<b>${item.date}</b><br>`;
+            item.results.forEach(res => {
+              div.innerHTML += `${res.label}: ${res.value}<br>`;
+            });
+            historyList.appendChild(div);
           });
-          historyList.appendChild(div);
-        });
+        }
+        historyDiv.style.display = historyDiv.style.display === 'none' ? 'block' : 'none';
+      } catch (err) {
+        errorDiv.textContent = 'შეცდომა ისტორიის ჩვენებისას: ' + err.message;
       }
-      historyDiv.style.display = historyDiv.style.display === 'none' ? 'block' : 'none';
     }
 
     function calculate(e) {
       e.preventDefault();
       errorDiv.textContent = '';
+      try {
+        if (!validateInputs()) {
+          resultDiv.innerHTML = '';
+          return;
+        }
+        const flour = parseFloat(inputs.flour.value) || 0;
+        const bran = parseFloat(inputs.bran.value) || 0;
+        const branPlus = parseFloat(inputs.branPlus.value) || 0;
+        const total = flour + bran + branPlus;
+        const flourPct = (flour / total * 100).toFixed(2);
+        const branPct = (bran / total * 100).toFixed(2);
+        const branPlusPct = (branPlus / total * 100).toFixed(2);
+        const minutes = parseFloat(inputs.minutesTaken.value) || 0;
+        const perHour = minutes > 0 ? ((total / minutes) * 60).toFixed(3) : 0;
 
-      if (!validateInputs()) {
-        resultDiv.innerHTML = '';
-        return;
+        const results = [
+          { label: "სულ", value: `${total.toFixed(3)} კგ` },
+          { label: "ფქვილი", value: `${flour.toFixed(3)} კგ (${flourPct}%)` },
+          { label: "ქატო", value: `${bran.toFixed(3)} კგ (${branPct}%)` },
+          { label: "ქატო+", value: `${branPlus.toFixed(3)} კგ (${branPlusPct}%)` }
+        ];
+        if (perHour > 0) {
+          results.push({ label: "სიჩქარე", value: `${perHour} კგ/საათში` });
+        }
+        renderResults(results);
+        saveResult(results);
+      } catch (err) {
+        errorDiv.textContent = 'შეცდომა გამოთვლისას: ' + err.message;
       }
-
-      const flour = parseFloat(inputs.flour.value) || 0;
-      const bran = parseFloat(inputs.bran.value) || 0;
-      const branPlus = parseFloat(inputs.branPlus.value) || 0;
-      const total = flour + bran + branPlus;
-
-      const flourPct = (flour / total * 100).toFixed(2);
-      const branPct = (bran / total * 100).toFixed(2);
-      const branPlusPct = (branPlus / total * 100).toFixed(2);
-      const minutes = parseFloat(inputs.minutesTaken.value) || 0;
-      const perHour = minutes > 0 ? ((total / minutes) * 60).toFixed(3) : 0;
-
-      const results = [
-        { label: "სულ", value: `${total.toFixed(3)} კგ` },
-        { label: "ფქვილი", value: `${flour.toFixed(3)} კგ (${flourPct}%)` },
-        { label: "ქატო", value: `${bran.toFixed(3)} კგ (${branPct}%)` },
-        { label: "ქატო+", value: `${branPlus.toFixed(3)} კგ (${branPlusPct}%)` }
-      ];
-
-      if (perHour > 0) {
-        results.push({ label: "სიჩქარე", value: `${perHour} კგ/საათში` });
-      }
-
-      renderResults(results);
-      saveResult(results);
     }
 
     exportPdfBtn.addEventListener('click', () => {
-      if (resultDiv.innerHTML === '') {
-        errorDiv.textContent = 'შედეგები არ არის გამოთვლილი.';
-        return;
+      errorDiv.textContent = '';
+      try {
+        if (resultDiv.innerHTML === '') {
+          errorDiv.textContent = 'შედეგები არ არის გამოთვლილი.';
+          return;
+        }
+        const { jsPDF } = window.jspdf;
+        if (!jsPDF) {
+          errorDiv.textContent = 'jsPDF ვერ ჩაიტვირთა. გთხოვთ, შეამოწმოთ ოფლაინ კავშირი.';
+          return;
+        }
+        const doc = new jsPDF();
+        doc.setFontSize(16);
+        doc.text('ფქვილის პროცენტული კალკულატორი', 10, 10);
+        doc.setFontSize(12);
+        doc.text(`თარიღი: ${new Date().toLocaleString('ka-GE')}`, 10, 20);
+        let y = 30;
+        Array.from(resultDiv.children).forEach(div => {
+          doc.text(div.textContent, 10, y);
+          y += 10;
+        });
+        doc.save('flour_calculator_results.pdf');
+      } catch (err) {
+        errorDiv.textContent = 'შეცდომა PDF-ის გენერაციისას: ' + err.message;
       }
-
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      doc.setFontSize(16);
-      doc.text('ფქვილის პროცენტული კალკულატორი', 10, 10);
-      doc.setFontSize(12);
-      doc.text(`თარიღი: ${new Date().toLocaleString('ka-GE')}`, 10, 20);
-
-      let y = 30;
-      Array.from(resultDiv.children).forEach(div => {
-        doc.text(div.textContent, 10, y);
-        y += 10;
-      });
-
-      doc.save('flour_calculator_results.pdf');
     });
 
     showHistoryBtn.addEventListener('click', showHistory);
-
     [inputs.flour, inputs.bran, inputs.branPlus].forEach(input => {
       input.addEventListener('input', autoFillTotal);
     });
@@ -405,10 +376,9 @@
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js')
           .then(reg => console.log('Service Worker registered', reg))
-          .catch(err => console.log('Service Worker registration failed', err));
+          .catch(err => console.error('Service Worker registration failed:', err));
       });
     }
   </script>
 </body>
 </html>
-
