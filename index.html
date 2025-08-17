@@ -11,7 +11,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="ფქვილის კალკულატორი" />
-  <script src="/js/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -45,7 +45,7 @@
     }
     h3 { 
       color: #1a3c34; 
-      margin-bottom: 10px;ഗ
+      margin-bottom: 10px;
     }
     .form-group { margin-bottom: 20px; }
     label { display: block; margin-bottom: 8px; color: #333; }
@@ -77,8 +77,8 @@
       background: #388E3C; 
       transform: translateY(-2px); 
     }
-    #exportPdf { background: #2196F3; }
-    #exportPdf:hover { background: #1976D2; }
+    #exportExcel { background: #2196F3; }
+    #exportExcel:hover { background: #1976D2; }
     #showHistory { background: #757575; }
     #showHistory:hover { background: #616161; }
     hr { border: none; border-top: 1px solid #e0e0e0; margin: 20px 0; }
@@ -184,7 +184,7 @@
         <input type="number" id="minutesTaken" step="0.01" placeholder="მაგ: 2" />
       </div>
       <button type="submit">გამოთვლა</button>
-      <button type="button" id="exportPdf">PDF-ად შენახვა</button>
+      <button type="button" id="exportExcel">Excel-ად შენახვა</button>
       <button type="button" id="showHistory">ისტორიის ჩვენება</button>
     </form>
     <div class="results-container" id="result"></div>
@@ -207,7 +207,7 @@
     const resultDiv = document.getElementById('result');
     const errorDiv = document.getElementById('error');
     const splash = document.getElementById('splash');
-    const exportPdfBtn = document.getElementById('exportPdf');
+    const exportExcelBtn = document.getElementById('exportExcel');
     const showHistoryBtn = document.getElementById('showHistory');
     const historyDiv = document.getElementById('history');
     const historyList = document.getElementById('historyList');
@@ -337,31 +337,38 @@
       }
     }
 
-    exportPdfBtn.addEventListener('click', () => {
+    exportExcelBtn.addEventListener('click', () => {
       errorDiv.textContent = '';
       try {
         if (resultDiv.innerHTML === '') {
           errorDiv.textContent = 'შედეგები არ არის გამოთვლილი.';
           return;
         }
-        const { jsPDF } = window.jspdf;
-        if (!jsPDF) {
-          errorDiv.textContent = 'jsPDF ვერ ჩაიტვირთა. გთხოვთ, შეამოწმოთ ოფლაინ კავშირი.';
-          return;
-        }
-        const doc = new jsPDF();
-        doc.setFontSize(16);
-        doc.text('ფქვილის პროცენტული კალკულატორი', 10, 10);
-        doc.setFontSize(12);
-        doc.text(`თარიღი: ${new Date().toLocaleString('ka-GE')}`, 10, 20);
-        let y = 30;
+
+        const data = [
+          ['ფქვილის პროცენტული კალკულატორი'],
+          ['თარიღი', new Date().toLocaleString('ka-GE')],
+          [],
+          ['სახელი', 'მნიშვნელობა']
+        ];
+
         Array.from(resultDiv.children).forEach(div => {
-          doc.text(div.textContent, 10, y);
-          y += 10;
+          const [label, value] = div.textContent.split(': ');
+          data.push([label, value]);
         });
-        doc.save('flour_calculator_results.pdf');
+
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.aoa_to_sheet(data);
+        const colWidths = [
+          { wch: 20 },
+          { wch: 30 }
+        ];
+        ws['!cols'] = colWidths;
+
+        XLSX.utils.book_append_sheet(wb, ws, 'Results');
+        XLSX.writeFile(wb, 'flour_calculator_results.xlsx');
       } catch (err) {
-        errorDiv.textContent = 'შეცდომა PDF-ის გენერაციისას: ' + err.message;
+        errorDiv.textContent = 'შეცდომა Excel-ის გენერაციისას: ' + err.message;
       }
     });
 
