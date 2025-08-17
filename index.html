@@ -1,76 +1,231 @@
 <!DOCTYPE html>
 <html lang="ka">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ფქვილის პროცენტული კალკულატორი</title>
   <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/jpeg" sizes="192x192" href="/m.jpg">
+  <link rel="apple-touch-icon" href="/m.jpg" />
+  <meta name="theme-color" content="#4CAF50" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="ფქვილის კალკულატორი" />
+  <script src="/js/jspdf.umd.min.js"></script>
+
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg, #e3f2fd, #bbdefb); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
-    .container { max-width: 600px; width: 100%; background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); }
-    h2 { text-align: center; color: #1a3c34; margin-bottom: 20px; font-size: 1.8rem; }
+    body { 
+      font-family: 'Segoe UI', Arial, sans-serif; 
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb); 
+      min-height: 100vh; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      padding: 20px; 
+    }
+    .container { 
+      max-width: 600px; 
+      width: 100%; 
+      background: #fff; 
+      padding: 30px; 
+      border-radius: 15px; 
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); 
+      transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    }
+    .container:hover { 
+      transform: translateY(-5px); 
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); 
+    }
+    h2 { 
+      text-align: center; 
+      color: #1a3c34; 
+      margin-bottom: 20px; 
+      font-size: 1.8rem; 
+    }
+    h3 { 
+      color: #1a3c34; 
+      margin-bottom: 10px;ഗ
+    }
     .form-group { margin-bottom: 20px; }
     label { display: block; margin-bottom: 8px; color: #333; }
-    input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
-    button { width: 100%; padding: 12px; background: #4CAF50; color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 10px; }
+    input { 
+      width: 100%; 
+      padding: 12px; 
+      border: 1px solid #ccc; 
+      border-radius: 8px; 
+      font-size: 1rem; 
+    }
+    input:focus { 
+      outline: none; 
+      border-color: #4CAF50; 
+      box-shadow: 0 0 8px rgba(76, 175, 80, 0.2); 
+    }
+    button { 
+      width: 100%; 
+      padding: 12px; 
+      background: #4CAF50; 
+      color: white; 
+      border: none; 
+      border-radius: 8px; 
+      font-size: 1.1rem; 
+      cursor: pointer; 
+      transition: background 0.3s ease, transform 0.2s ease; 
+      margin-top: 10px; 
+    }
+    button:hover { 
+      background: #388E3C; 
+      transform: translateY(-2px); 
+    }
     #exportPdf { background: #2196F3; }
+    #exportPdf:hover { background: #1976D2; }
     #showHistory { background: #757575; }
-    .results-container { margin-top: 20px; }
-    .result-item { display: flex; justify-content: space-between; background: #fafafa; border-left: 5px solid #4CAF50; padding: 12px 15px; border-radius: 8px; }
-    .error { color: #d32f2f; font-size: 0.9rem; margin-top: 10px; text-align: center; }
+    #showHistory:hover { background: #616161; }
+    hr { border: none; border-top: 1px solid #e0e0e0; margin: 20px 0; }
+    .results-container {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      background: #fafafa;
+      border-left: 5px solid #4CAF50;
+      padding: 12px 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      font-size: 1.4rem;
+      line-height: 1.5;
+    }
+    .result-item b { color: #1a3c34; }
+    .error { 
+      color: #d32f2f; 
+      font-size: 0.9rem; 
+      margin-top: 10px; 
+      text-align: center; 
+    }
     #history { margin-top: 20px; }
-    #historyList { display: flex; flex-direction: column; gap: 12px; }
-    .history-item { background: #f5f5f5; padding: 10px; border-radius: 8px; border-left: 5px solid #4CAF50; }
+    #historyList {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .history-item {
+      background: #f5f5f5;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 1rem;
+      border-left: 5px solid #4CAF50;
+    }
+    @media (prefers-color-scheme: dark) {
+      body { background: linear-gradient(135deg, #263238, #37474f); }
+      .container { background: #424242; color: #f5f5f5; }
+      label { color: #eee; }
+      input { background: #666; border-color: #888; color: #fff; }
+      .result-item { 
+        background: #555; 
+        border-left-color: #81C784; 
+        color: #fff; 
+        font-size: 1.4rem; 
+      }
+      .history-item {
+        background: #555;
+        border-left-color: #81C784;
+        color: #fff;
+      }
+    }
+    @media (max-width: 400px) {
+      .container { padding: 15px; }
+      h2 { font-size: 1.5rem; }
+      .result-item { font-size: 1.1rem; }
+      input, button { font-size: 0.9rem; padding: 10px; }
+    }
+    #splash {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #ffffff url('/m.jpg') no-repeat center center;
+      background-size: contain;
+      display: flex; justify-content: center; align-items: center;
+      z-index: 9999;
+      opacity: 1;
+      transition: opacity 0.6s ease-out;
+    }
+    #splash.hidden { opacity: 0; pointer-events: none; }
   </style>
 </head>
 <body>
+  <div id="splash"></div>
   <div class="container">
     <h2>ფქვილის პროცენტული კალკულატორი</h2>
     <form id="calcForm">
       <div class="form-group">
         <label for="flour">ფქვილი (კგ):</label>
-        <input type="number" id="flour" step="0.001" placeholder="მაგ: 23.950" required>
+        <input type="number" id="flour" step="0.001" placeholder="მაგ: 23.950" required aria-describedby="error" />
       </div>
       <div class="form-group">
         <label for="bran">ქატო (კგ):</label>
-        <input type="number" id="bran" step="0.001" placeholder="მაგ: 2.200" required>
+        <input type="number" id="bran" step="0.001" placeholder="მაგ: 2.200" required aria-describedby="error" />
       </div>
       <div class="form-group">
         <label for="branPlus">ქატო+ (კგ):</label>
-        <input type="number" id="branPlus" step="0.001" placeholder="მაგ: 3.950" required>
+        <input type="number" id="branPlus" step="0.001" placeholder="მაგ: 3.950" required aria-describedby="error" />
+      </div>
+      <hr>
+      <h3>წისქვილის სიჩქარე</h3>
+      <div class="form-group">
+        <label for="amountGround">დაფქვის წონა (კგ):</label>
+        <input type="number" id="amountGround" step="0.001" readonly />
+      </div>
+      <div class="form-group">
+        <label for="minutesTaken">რამდენ წუთში დაფქვა:</label>
+        <input type="number" id="minutesTaken" step="0.01" placeholder="მაგ: 2" />
       </div>
       <button type="submit">გამოთვლა</button>
       <button type="button" id="exportPdf">PDF-ად შენახვა</button>
       <button type="button" id="showHistory">ისტორიის ჩვენება</button>
     </form>
     <div class="results-container" id="result"></div>
-    <div class="error" id="error"></div>
+    <div class="error" id="error" role="alert"></div>
     <div id="history" style="display: none;">
+      <h3>წინა შედეგები</h3>
       <div id="historyList"></div>
     </div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
     const form = document.getElementById('calcForm');
     const inputs = {
       flour: document.getElementById('flour'),
       bran: document.getElementById('bran'),
-      branPlus: document.getElementById('branPlus')
+      branPlus: document.getElementById('branPlus'),
+      amountGround: document.getElementById('amountGround'),
+      minutesTaken: document.getElementById('minutesTaken'),
     };
     const resultDiv = document.getElementById('result');
     const errorDiv = document.getElementById('error');
+    const splash = document.getElementById('splash');
     const exportPdfBtn = document.getElementById('exportPdf');
     const showHistoryBtn = document.getElementById('showHistory');
     const historyDiv = document.getElementById('history');
     const historyList = document.getElementById('historyList');
 
+    window.addEventListener('load', () => {
+      inputs.flour.focus();
+      Promise.all([
+        new Promise(resolve => setTimeout(resolve, 1000)),
+        document.fonts.ready
+      ]).then(() => splash.classList.add('hidden'));
+    });
+
     function validateInputs() {
       const flour = parseFloat(inputs.flour.value) || 0;
       const bran = parseFloat(inputs.bran.value) || 0;
       const branPlus = parseFloat(inputs.branPlus.value) || 0;
-      if (flour < 0 || bran < 0 || branPlus < 0) {
+      const minutes = parseFloat(inputs.minutesTaken.value) || 0;
+      if (flour < 0 || bran < 0 || branPlus < 0 || minutes < 0) {
         errorDiv.textContent = 'უარყოფითი მნიშვნელობები დაუშვებელია.';
         return false;
       }
@@ -79,6 +234,29 @@
         return false;
       }
       return true;
+    }
+
+    function autoFillTotal() {
+      const flour = parseFloat(inputs.flour.value) || 0;
+      const bran = parseFloat(inputs.bran.value) || 0;
+      const branPlus = parseFloat(inputs.branPlus.value) || 0;
+      const total = flour + bran + branPlus;
+      inputs.amountGround.value = total ? total.toFixed(3) : '';
+      calculateSpeed();
+    }
+
+    function calculateSpeed() {
+      const amount = parseFloat(inputs.amountGround.value) || 0;
+      const minutes = parseFloat(inputs.minutesTaken.value) || 0;
+      if (amount > 0 && minutes > 0) {
+        if (minutes < 0.1) {
+          errorDiv.textContent = 'დაფქვის დრო ძალიან მცირეა, გთხოვთ, შეიყვანოთ რეალისტური მნიშვნელობა.';
+          resultDiv.innerHTML = '';
+          return;
+        }
+        const perHour = (amount / minutes) * 60;
+        renderResults([{ label: "სიჩქარე", value: `${perHour.toFixed(3)} კგ/საათში` }]);
+      }
     }
 
     function renderResults(items) {
@@ -92,77 +270,115 @@
     }
 
     function saveResult(results) {
-      let history = JSON.parse(localStorage.getItem('calc_history')) || [];
-      history.unshift({ date: new Date().toLocaleString('ka-GE'), results });
-      if (history.length > 10) history.pop();
-      localStorage.setItem('calc_history', JSON.stringify(history));
+      try {
+        let history = JSON.parse(localStorage.getItem('calc_history')) || [];
+        history.unshift({ date: new Date().toLocaleString('ka-GE'), results });
+        if (history.length > 10) history.pop();
+        localStorage.setItem('calc_history', JSON.stringify(history));
+      } catch (err) {
+        errorDiv.textContent = 'შეცდომა ისტორიის შენახვისას: ' + err.message;
+      }
     }
 
     function showHistory() {
-      const history = JSON.parse(localStorage.getItem('calc_history')) || [];
-      historyList.innerHTML = '';
-      if (history.length === 0) {
-        historyList.innerHTML = '<p>ისტორია ცარიელია.</p>';
-      } else {
-        history.forEach((item, index) => {
-          const div = document.createElement('div');
-          div.className = 'history-item';
-          div.innerHTML = `<b>${item.date}</b><br>`;
-          item.results.forEach(res => {
-            div.innerHTML += `${res.label}: ${res.value}<br>`;
+      try {
+        const history = JSON.parse(localStorage.getItem('calc_history')) || [];
+        historyList.innerHTML = '';
+        if (history.length === 0) {
+          historyList.innerHTML = '<p>ისტორია ცარიელია.</p>';
+        } else {
+          history.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'history-item';
+            div.innerHTML = `<b>${item.date}</b><br>`;
+            item.results.forEach(res => {
+              div.innerHTML += `${res.label}: ${res.value}<br>`;
+            });
+            historyList.appendChild(div);
           });
-          historyList.appendChild(div);
-        });
+        }
+        historyDiv.style.display = historyDiv.style.display === 'none' ? 'block' : 'none';
+      } catch (err) {
+        errorDiv.textContent = 'შეცდომა ისტორიის ჩვენებისას: ' + err.message;
       }
-      historyDiv.style.display = historyDiv.style.display === 'none' ? 'block' : 'none';
     }
 
     function calculate(e) {
       e.preventDefault();
       errorDiv.textContent = '';
-      if (!validateInputs()) {
-        resultDiv.innerHTML = '';
-        return;
-      }
-      const flour = parseFloat(inputs.flour.value) || 0;
-      const bran = parseFloat(inputs.bran.value) || 0;
-      const branPlus = parseFloat(inputs.branPlus.value) || 0;
-      const total = flour + bran + branPlus;
-      const flourPct = (flour / total * 100).toFixed(2);
-      const branPct = (bran / total * 100).toFixed(2);
-      const branPlusPct = (branPlus / total * 100).toFixed(2);
+      try {
+        if (!validateInputs()) {
+          resultDiv.innerHTML = '';
+          return;
+        }
+        const flour = parseFloat(inputs.flour.value) || 0;
+        const bran = parseFloat(inputs.bran.value) || 0;
+        const branPlus = parseFloat(inputs.branPlus.value) || 0;
+        const total = flour + bran + branPlus;
+        const flourPct = (flour / total * 100).toFixed(2);
+        const branPct = (bran / total * 100).toFixed(2);
+        const branPlusPct = (branPlus / total * 100).toFixed(2);
+        const minutes = parseFloat(inputs.minutesTaken.value) || 0;
+        const perHour = minutes > 0 ? ((total / minutes) * 60).toFixed(3) : 0;
 
-      const results = [
-        { label: "სულ", value: `${total.toFixed(3)} კგ` },
-        { label: "ფქვილი", value: `${flour.toFixed(3)} კგ (${flourPct}%)` },
-        { label: "ქატო", value: `${bran.toFixed(3)} კგ (${branPct}%)` },
-        { label: "ქატო+", value: `${branPlus.toFixed(3)} კგ (${branPlusPct}%)` }
-      ];
-      renderResults(results);
-      saveResult(results);
+        const results = [
+          { label: "სულ", value: `${total.toFixed(3)} კგ` },
+          { label: "ფქვილი", value: `${flour.toFixed(3)} კგ (${flourPct}%)` },
+          { label: "ქატო", value: `${bran.toFixed(3)} კგ (${branPct}%)` },
+          { label: "ქატო+", value: `${branPlus.toFixed(3)} კგ (${branPlusPct}%)` }
+        ];
+        if (perHour > 0) {
+          results.push({ label: "სიჩქარე", value: `${perHour} კგ/საათში` });
+        }
+        renderResults(results);
+        saveResult(results);
+      } catch (err) {
+        errorDiv.textContent = 'შეცდომა გამოთვლისას: ' + err.message;
+      }
     }
 
     exportPdfBtn.addEventListener('click', () => {
-      if (resultDiv.innerHTML === '') {
-        errorDiv.textContent = 'შედეგები არ არის გამოთვლილი.';
-        return;
+      errorDiv.textContent = '';
+      try {
+        if (resultDiv.innerHTML === '') {
+          errorDiv.textContent = 'შედეგები არ არის გამოთვლილი.';
+          return;
+        }
+        const { jsPDF } = window.jspdf;
+        if (!jsPDF) {
+          errorDiv.textContent = 'jsPDF ვერ ჩაიტვირთა. გთხოვთ, შეამოწმოთ ოფლაინ კავშირი.';
+          return;
+        }
+        const doc = new jsPDF();
+        doc.setFontSize(16);
+        doc.text('ფქვილის პროცენტული კალკულატორი', 10, 10);
+        doc.setFontSize(12);
+        doc.text(`თარიღი: ${new Date().toLocaleString('ka-GE')}`, 10, 20);
+        let y = 30;
+        Array.from(resultDiv.children).forEach(div => {
+          doc.text(div.textContent, 10, y);
+          y += 10;
+        });
+        doc.save('flour_calculator_results.pdf');
+      } catch (err) {
+        errorDiv.textContent = 'შეცდომა PDF-ის გენერაციისას: ' + err.message;
       }
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      doc.setFontSize(16);
-      doc.text('ფქვილის პროცენტული კალკულატორი', 10, 10);
-      doc.setFontSize(12);
-      doc.text(`თარიღი: ${new Date().toLocaleString('ka-GE')}`, 10, 20);
-      let y = 30;
-      Array.from(resultDiv.children).forEach(div => {
-        doc.text(div.textContent, 10, y);
-        y += 10;
-      });
-      doc.save('flour_calculator_results.pdf');
     });
 
     showHistoryBtn.addEventListener('click', showHistory);
+    [inputs.flour, inputs.bran, inputs.branPlus].forEach(input => {
+      input.addEventListener('input', autoFillTotal);
+    });
+    inputs.minutesTaken.addEventListener('input', calculateSpeed);
     form.addEventListener('submit', calculate);
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(reg => console.log('Service Worker registered', reg))
+          .catch(err => console.error('Service Worker registration failed:', err));
+      });
+    }
   </script>
 </body>
 </html>
